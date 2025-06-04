@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="icon" href="/img/logo/favicon.ico">
+        <title>創世記</title>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+        <style>
+            body {
+                margin: 0;
+                font-family: 'Noto Sans JP', sans-serif;
+                background-color: #f8f8f8; /* 非常に薄いグレー */
+                color: #333;
+                line-height: 1.7; /* 行間を少し広げました */
+            }
+
+            nav {
+                width: 100%;
+                height: 60px; /* 少し高さを抑えました */
+                background-color: #fff; /* 白 */
+                padding: 0 20px;
+                box-sizing: border-box;
+                display: flex;
+                align-items: center;
+                border-bottom: 1px solid #ddd; /* 薄い罫線 */
+            }
+
+            nav ul {
+                display: flex;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                width: 100%;
+            }
+
+            nav li {
+                color: #555;
+                font-size: 1.3em;
+                font-weight: 300;
+            }
+
+            a {
+                display: block;
+                text-decoration: none;
+                color: #555;
+                margin-right: 25px;
+                transition: color 0.3s ease;
+            }
+
+            a:hover {
+                color: #008080; /* 淡い青緑 */
+            }
+
+            main {
+                background-color: #fff;
+                padding: 30px;
+                max-width: 800px;
+                margin: 30px auto;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                border-radius: 5px;
+            }
+
+            h1 {
+                color: #333;
+                text-align: center;
+                margin-bottom: 25px;
+                font-weight: 400;
+                font-size: 2em;
+            }
+
+            p {
+                color: #555;
+                margin-bottom: 15px;
+                font-size: 1.1em;
+            }
+
+            footer {
+                padding: 20px;
+                text-align: center;
+                background-color: #f0f0f0;
+                border-top: 1px solid #ddd;
+                margin-top: 30px;
+            }
+
+            input[type="text"] {
+                padding: 10px 15px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                margin-right: 10px;
+                width: 200px;
+                box-sizing: border-box;
+                font-size: 1em;
+            }
+
+            button {
+                padding: 10px 20px;
+                background-color: #008080; /* 淡い青緑 */
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 1em;
+                transition: background-color 0.3s ease;
+            }
+
+            button:hover {
+                background-color: #006666; /* 少し濃い青緑 */
+            }
+
+            #result {
+                margin-top: 15px;
+                font-weight: bold;
+                color: #333;
+                font-size: 1.1em;
+            }
+
+            /* レスポンシブ対応 */
+            @media (max-width: 768px) {
+                main {
+                    margin: 20px auto;
+                    padding: 20px;
+                }
+
+                nav li {
+                    font-size: 1.2em;
+                }
+
+                input[type="text"] {
+                    width: calc(100% - 120px);
+                    margin-bottom: 10px;
+                    margin-right: 0;
+                }
+
+                button {
+                    width: 100%;
+                }
+            }
+        </style>
+        <script src="/js/utils/utils.js"></script>
+        <script>
+            // この関数は通常、src属性で指定されているutils.jsにあるはずです
+            // この例では、sha256のプレースホルダーを含めています。
+            // 実際のシナリオでは、utils.jsに動作するsha256の実装があることを確認する必要があります。
+            async function sha256(message) {
+                // メッセージをUint8Arrayとしてエンコード
+                const msgBuffer = new TextEncoder().encode(message);
+
+                // メッセージをハッシュ化
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+                // ArrayBufferをArrayに変換
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+                // バイトを16進文字列に変換
+                const hexHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                return hexHash;
+            }
+
+            function checkAnswer(){
+                sha256(document.getElementById('user_answer').value).then((hash) => {
+                    if(hash === 'b4003030a618a54e83c92ac29756ea2ff0cedb7b06c0cdd5433e9eb0688194a9') {
+                        document.getElementById('result').textContent = '正解';
+                        // 'yuki'という名前のクッキーに値'True'を設定します
+                        // そして、サイト全体で7日間利用できるようにします。
+                        document.cookie = 'yuki=True; path=/; max-age=604800';
+                        // 正解後、サイトのルートにリダイレクトします。
+                        location.replace('/');
+                    } else {
+                        document.getElementById('result').textContent = '不正解'
+                    }
+                });
+            }
+        </script>
+    </head>
+    <body>
+
+        <header>
+            <nav>
+                <ul>
+                    <li>旧約聖書 創世記</li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <h1>創世記 - 旧約聖書より</h1>
+            <p>はじめに神は天と地とを創造された。</p>
+            <p>地は形なく、虚しく、闇が淵のおもてにあり、神の霊が水の<ruby>面<rp>(</rp><rt>おもて</rt><rp>)</rp></ruby>を覆っていた。</p>
+            <p>神は「光あれ」と言われた。すると光があった。</p>
+            <p>神はその光を見て、良しとされた。神はその光と闇とを分けられた。</p>
+            <p>神は光を昼と名づけ、闇を夜と名づけられた。夕となり、また朝となった。</p>
+            <br><br>
+        </main>
+
+        <footer>
+            <input id="user_answer" type="text" placeholder="入力…">
+            <button onclick="checkAnswer()">Enter</button>
+            <p id="result"></p>
+        </footer>
+    </body>
+</html>
