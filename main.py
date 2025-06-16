@@ -80,12 +80,11 @@ def isJSON(json_str):
     try:
         json.loads(json_str)
         return True
-    except json.JSONDecodeError as jde:
+    except json.JSONDecodeError:
         pass
     return False
 
 def updateList(list, str):
-    list.append(str)
     list.remove(str)
     return list
 
@@ -101,7 +100,7 @@ def requestAPI(path, api_urls):
             res = requests.get(api + 'api/v1' + path, headers=getRandomUserAgent(), timeout=max_api_wait_time)
             if res.status_code == requests.codes.ok and isJSON(res.text):
                 
-                if invidious_api.check_video and path.startswith('/video/'):
+                if invidious_api.check_video and path.startswith('/videos/'):
                     # 動画の有無をチェックする場合
                     video_res = requests.get(json.loads(res.text)['formatStreams'][0]['url'], headers=getRandomUserAgent(), timeout=(3.0, 0.5))
                     if not 'video' in video_res.headers['Content-Type']:
